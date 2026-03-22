@@ -79,6 +79,7 @@ st.markdown("""
     .card p {
         color: #93c5fd;
         font-weight: 700;
+        font-size: 1.05rem;
     }
 
     .kpi-card {
@@ -251,7 +252,6 @@ stats["Jugador"] = stats["Jugador"].fillna("Sin nombre")
 # =========================================================
 fixture["Orden"] = pd.to_numeric(fixture["Orden"], errors="coerce")
 
-# Si Partidos tiene Orden, intentamos unir
 if "Orden" in partidos.columns:
     partidos["Orden"] = pd.to_numeric(partidos["Orden"], errors="coerce")
     partidos = partidos.merge(
@@ -261,11 +261,9 @@ if "Orden" in partidos.columns:
         suffixes=("", "_fix")
     )
 else:
-    # Si no tiene Orden, inventamos columnas vacías
     partidos["Rival"] = ""
     partidos["Local_Visitante"] = ""
 
-# Asegurar columnas finales
 if "Rival" not in partidos.columns:
     if "Rival_fix" in partidos.columns:
         partidos["Rival"] = partidos["Rival_fix"]
@@ -281,7 +279,6 @@ if "Local_Visitante" not in partidos.columns:
 partidos["Rival"] = partidos["Rival"].fillna("")
 partidos["Local_Visitante"] = partidos["Local_Visitante"].fillna("")
 
-# Si no se pudo armar con datos reales, usamos ID_Partido
 partidos["Nombre_Partido"] = partidos.apply(
     lambda row: (
         f"{row['Rival']} ({str(row['Local_Visitante'])[:1].upper()})"
@@ -375,13 +372,13 @@ cols = st.columns(3)
 if proximos.empty:
     st.info("No hay próximos partidos para mostrar.")
 else:
-    for i, row in proximos.iterrows():
-        idx = min(i, 2)
-        with cols[idx]:
+    for pos, (_, row) in enumerate(proximos.iterrows()):
+        condicion = "🏠 Local" if str(row["Local_Visitante"]).strip().lower() == "local" else "✈️ Visitante"
+        with cols[pos]:
             st.markdown(f"""
             <div class="card">
-                <h3>{row['Rival']}</h3>
-                <p>{row['Local_Visitante']}</p>
+                <h3>⚽ {row['Rival']}</h3>
+                <p>{condicion}</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -437,6 +434,7 @@ else:
         paper_bgcolor="#0b1220",
         font_color="white"
     )
+    fig.update_traces(marker_color="#3b82f6", textposition="outside")
     st.plotly_chart(fig, use_container_width=True)
 
 # =========================================================
@@ -502,6 +500,7 @@ if comp1 != "Ninguna" and comp2 != "Ninguna" and comp1 != comp2:
     fig2.update_layout(
         plot_bgcolor="#0b1220",
         paper_bgcolor="#0b1220",
-        font_color="white"
+        font_color="white",
+        legend_title_text=""
     )
     st.plotly_chart(fig2, use_container_width=True)
