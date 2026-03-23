@@ -23,7 +23,7 @@ url_tabla = "https://parenlapelotafutsal.com.ar/fem/primeraA/primera"
 ruta_escudo = "assets/escudo_secla.png"
 
 # =========================================================
-# ESTILO PRO FINAL
+# ESTILO RESPONSIVE FINAL
 # =========================================================
 st.markdown("""
 <style>
@@ -32,8 +32,8 @@ st.markdown("""
     }
 
     .block-container {
-        padding-top: 1.2rem;
-        padding-bottom: 2rem;
+        padding-top: 1rem;
+        padding-bottom: 1.5rem;
         max-width: 1450px;
     }
 
@@ -49,56 +49,109 @@ st.markdown("""
     .header-box {
         background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
         border: 1px solid #1f2937;
-        border-radius: 22px;
-        padding: 16px 22px;
+        border-radius: 20px;
+        padding: 14px 18px;
         box-shadow: 0 10px 26px rgba(0,0,0,0.28);
-        margin-bottom: 18px;
+        margin-bottom: 16px;
     }
 
     .section-title {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
         font-weight: 800;
         margin-bottom: 10px;
     }
 
     .card {
         background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
-        padding: 18px;
-        border-radius: 18px;
+        padding: 16px;
+        border-radius: 16px;
         border: 1px solid #1f2937;
         box-shadow: 0 8px 24px rgba(0,0,0,0.25);
         text-align: center;
-        min-height: 130px;
+        min-height: 115px;
     }
 
     .card h3 {
         margin: 0;
-        font-size: 1.3rem;
+        font-size: 1.15rem;
+        line-height: 1.2;
     }
 
     .card p {
         color: #93c5fd;
         font-weight: 700;
-        font-size: 1.05rem;
+        font-size: 0.95rem;
+        margin-top: 10px;
     }
 
     .kpi-card {
         background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
         border: 1px solid #1f2937;
-        border-radius: 18px;
-        padding: 16px;
+        border-radius: 16px;
+        padding: 14px;
         box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+        min-height: 90px;
     }
 
     .kpi-label {
         color: #93c5fd;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-weight: 700;
     }
 
     .kpi-value {
-        font-size: 1.9rem;
+        font-size: 1.6rem;
         font-weight: 900;
+        line-height: 1.1;
+        margin-top: 6px;
+    }
+
+    @media (max-width: 768px) {
+        .block-container {
+            padding-top: 0.7rem;
+            padding-left: 0.8rem;
+            padding-right: 0.8rem;
+            padding-bottom: 1.2rem;
+        }
+
+        .header-box {
+            padding: 12px 14px;
+            border-radius: 16px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .card {
+            min-height: 95px;
+            padding: 12px;
+            border-radius: 14px;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .kpi-card {
+            padding: 12px;
+            border-radius: 14px;
+            min-height: 82px;
+        }
+
+        .kpi-label {
+            font-size: 0.78rem;
+        }
+
+        .kpi-value {
+            font-size: 1.3rem;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -328,10 +381,16 @@ st.markdown('<div class="header-box">', unsafe_allow_html=True)
 
 c1, c2 = st.columns([1, 6])
 with c1:
-    st.image(ruta_escudo, width=90)
+    st.image(ruta_escudo, width=80)
 with c2:
-    st.title("SECLA FUTSAL DASHBOARD")
-    st.caption("Análisis completo del equipo")
+    st.markdown("""
+    <div style="padding-top: 4px;">
+        <h1 style="margin:0; font-size:2rem;">SECLA FUTSAL DASHBOARD</h1>
+        <p style="margin-top:6px; color:#94a3b8; font-size:0.95rem;">
+            Análisis completo del equipo
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -432,7 +491,8 @@ else:
     fig.update_layout(
         plot_bgcolor="#0b1220",
         paper_bgcolor="#0b1220",
-        font_color="white"
+        font_color="white",
+        margin=dict(l=10, r=10, t=40, b=10)
     )
     fig.update_traces(marker_color="#3b82f6", textposition="outside")
     st.plotly_chart(fig, use_container_width=True)
@@ -501,6 +561,7 @@ if comp1 != "Ninguna" and comp2 != "Ninguna" and comp1 != comp2:
         plot_bgcolor="#0b1220",
         paper_bgcolor="#0b1220",
         font_color="white",
-        legend_title_text=""
+        legend_title_text="",
+        margin=dict(l=10, r=10, t=40, b=10)
     )
     st.plotly_chart(fig2, use_container_width=True)
